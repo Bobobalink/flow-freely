@@ -1,0 +1,121 @@
+<head>
+
+</head>
+<body onpageshow="drawThings()" onfocus="drawThings()">
+<canvas id="hexes" width="600" height="600"></canvas>
+<script type="text/javascript" src="/static/HexagonTools.js"></script>
+<script type="text/javascript" src="/static/Grid.js"></script>
+<script type="text/javascript">
+    var flowDots = flowDots || {};
+    flowDots.Static = {};
+    flowDots.Static.RADIUS = 32;
+    flowDots.Static.LINE_WIDTH = 27;
+    flowDots.Static.DRAW_LABELS = true;
+    // lovingly hand-stolen from https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
+    flowDots.Static.COLORS = {
+        "A": "#e6194b",
+        "B": "#3cb44b",
+        "C": "#ffe119",
+        "D": "#0082c8",
+        "E": "#f58231",
+        "F": "#911eb4",
+        "G": "#46f0f0",
+        "H": "#f032e6",
+        "I": "#d2f53c",
+        "J": "#fabebe",
+        "K": "#008080",
+        "L": "#e6beff",
+        "M": "#aa6e28",
+        "N": "#fffac8",
+        "O": "#800000",
+        "P": "#aaffc3",
+        "Q": "#808000",
+        "R": "#ffd8b1",
+        "S": "#000080",
+        "T": "#808080",
+        "U": "#000000"
+    };
+    flowDots.Static.label_color = "#ffffff";
+    flowDots.Dot = function (hex, label) {
+        this.hex = hex;
+        this.label = label;
+        this.connections = [];
+    };
+
+    flowDots.Dot.prototype.draw = function (drawer) {
+        drawer.fillStyle = flowDots.Static.COLORS[this.label];
+        drawer.beginPath();
+        drawer.arc(this.hex.MidPoint.X, this.hex.MidPoint.Y, flowDots.Static.RADIUS, 0, 2 * Math.PI);
+        drawer.closePath();
+        drawer.fill();
+        drawer.lineWidth = flowDots.Static.LINE_WIDTH;
+        for (var i in this.connections) {
+            drawer.strokeStyle = flowDots.Static.COLORS[this.label];
+            drawer.beginPath();
+            if (i == 0) {
+                drawer.moveTo(this.hex.MidPoint.X, this.hex.MidPoint.Y);
+                console.log("(" + this.label + ") begin: " + this.hex.MidPoint.X + ", " + this.hex.MidPoint.Y);
+            } else {
+                drawer.moveTo(this.connections[i - 1].MidPoint.X, this.connections[i - 1].MidPoint.Y);
+                console.log("(" + this.label + ") begin: " + this.connections[i - 1].MidPoint.X + ", " + this.connections[i - 1].MidPoint.Y);
+            }
+            drawer.lineTo(this.connections[i].MidPoint.X, this.connections[i].MidPoint.Y);
+            console.log("(" + this.label + ") end: " + this.connections[i].MidPoint.X + ", " + this.connections[i].MidPoint.Y);
+            drawer.stroke();
+            drawer.fillStyle = flowDots.Static.COLORS[this.label];
+            drawer.beginPath();
+            drawer.arc(this.connections[i].MidPoint.X, this.connections[i].MidPoint.Y, flowDots.Static.LINE_WIDTH / 2, 0, 2 * Math.PI);
+            drawer.closePath();
+            drawer.fill();
+        }
+        if (flowDots.Static.DRAW_LABELS) {
+            drawer.fillStyle = flowDots.Static.label_color;
+            drawer.font = "bolder 10pt Trebuchet MS,Tahoma,Verdana,Arial,sans-serif";
+            drawer.textAlign = "center";
+            drawer.textBaseline = 'middle';
+            drawer.fillText(this.label, this.hex.MidPoint.X, this.hex.MidPoint.Y);
+        }
+    };
+</script>
+
+<script type="text/javascript">
+    var canvas = document.getElementById("hexes");
+    var drawer = canvas.getContext("2d");
+    drawer.fillStyle = "#ffffff";
+    drawer.fillRect(0, 0, canvas.width, canvas.height);
+    HT.Hexagon.Static.WIDTH = 100;
+    HT.Hexagon.Static.HEIGHT = 86.60254037844388;
+    HT.Hexagon.Static.SIDE = 50;
+    var grid = new HT.Grid(canvas.width, canvas.height);
+
+    var dots = [];
+    dots.push(new flowDots.Dot(grid.GetHexById("A1"), "A"));
+    dots.push(new flowDots.Dot(grid.GetHexById("A5"), "B"));
+    dots[0].connections.push(grid.GetHexById("B2"));
+    dots[0].connections.push(grid.GetHexById("D2"));
+    dots[1].connections.push(grid.GetHexById("B4"));
+    dots[1].connections.push(grid.GetHexById("C5"));
+    dots[1].connections.push(grid.GetHexById("D4"));
+    dots[1].connections.push(grid.GetHexById("E5"));
+    dots[1].connections.push(grid.GetHexById("D6"));
+    dots[1].connections.push(grid.GetHexById("B6"));
+    dots[1].connections.push(grid.GetHexById("A5"));
+
+    function drawThings() {
+        for (var h in grid.Hexes) {
+            console.log(h + " " + grid.Hexes[h].x + " " + grid.Hexes[h].y);
+            grid.Hexes[h].draw(drawer);
+            {#            drawer.strokeStyle = "#ff0000";#}
+            {#            drawer.lineWidth = 2;#}
+            {#            drawer.beginPath();#}
+            {#            drawer.arc(parseInt(grid.Hexes[h].MidPoint.X), parseInt(grid.Hexes[h].MidPoint.Y), 5, 0, 2 * Math.PI);#}
+            {#            drawer.closePath();#}
+            {#            drawer.stroke();#}
+        }
+        for (var i in dots) {
+            dots[i].draw(drawer);
+        }
+    }
+    drawThings();
+</script>
+</body>
