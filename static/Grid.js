@@ -2,7 +2,7 @@
  * A Grid is the model of the playfield containing hexes
  * @constructor
  */
-HT.Grid = function (/*double*/ width, /*double*/ height) {
+HT.Grid = function (/*number*/ width, /*number*/ height) {
 
     this.Hexes = [];
     //setup a dictionary for use later for assigning the X or Y CoOrd (depending on Orientation)
@@ -86,7 +86,7 @@ HT.Grid.prototype.GetHexId = function (row, col) {
  * @this {HT.Grid}
  * @return {HT.Hexagon}
  */
-HT.Grid.prototype.GetHexAt = function (/*Point*/ p) {
+HT.Grid.prototype.GetHexAt = function (/*HT.Point*/ p) {
     //find the hex that contains this point
     for (var h in this.Hexes) {
         if (this.Hexes[h].Contains(p)) {
@@ -102,7 +102,7 @@ HT.Grid.prototype.GetHexAt = function (/*Point*/ p) {
  * @this {HT.Grid}
  * @return {number}
  */
-HT.Grid.prototype.GetHexDistance = function (/*Hexagon*/ h1, /*Hexagon*/ h2) {
+HT.Grid.prototype.GetHexDistance = function (/*HT.Hexagon*/ h1, /*HT.Hexagon*/ h2) {
     //a good explanation of this calc can be found here:
     //http://playtechs.blogspot.com/2007/04/hex-grids.html
     var deltaX = h1.PathCoOrdX - h2.PathCoOrdX;
