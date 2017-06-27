@@ -4,11 +4,12 @@
 <body onpageshow="drawThings()" onfocus="drawThings()">
 <canvas id="hexes" width="600" height="600"></canvas>
 <br />
-<button id="toggleButton" onclick="switchMode(this)">Play</button>
+<input type="button" id="toggleButton" onclick="switchMode(this)" value="Play">
 <script type="text/javascript" src="/static/HexagonTools.js"></script>
 <script type="text/javascript" src="/static/Grid.js"></script>
 <script type="text/javascript" src="/static/flowDrawer.js"></script>
 <script type="text/javascript" src="/static/levelCreator.js"></script>
+<script type="text/javascript" src="/static/levelPlayer.js"></script>
 <script type="text/javascript">
     var canvas = document.getElementById("hexes");
     var drawer = canvas.getContext("2d");
@@ -21,7 +22,7 @@
 
     var dots = {};
 
-    {#
+
     dots["A1"] = new flowDots.Dot(grid.GetHexById("A1"), "A");
     dots["A5"] = new flowDots.Dot(grid.GetHexById("A5"), "B");
 
@@ -34,7 +35,7 @@
     dots["A5"].connections.push(grid.GetHexById("D6"));
     dots["A5"].connections.push(grid.GetHexById("B6"));
     dots["A5"].connections.push(grid.GetHexById("A5"));
-    #}
+
 
     function drawThings() {
         drawer.clearRect(0, 0, canvas.width, canvas.height);
@@ -51,10 +52,18 @@
     function switchMode(button) {
         if(button.value == "Play") {
             button.value = "Edit";
+
             canvas.removeEventListener("click", LC.onClick);
+
+            canvas.addEventListener("click", LP.onClick);
+            canvas.addEventListener("mousemove", LP.onMouseMove);
         } else {
             button.value = "Play";
+
             canvas.addEventListener("click", LC.onClick);
+
+            canvas.removeEventListener("click", LP.onClick);
+            canvas.removeEventListener("mousemove", LP.onMouseMove);
         }
     }
 

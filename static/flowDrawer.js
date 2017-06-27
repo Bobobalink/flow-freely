@@ -42,13 +42,13 @@ flowDots.Dot.prototype.draw = function (drawer) {
     for (var i in this.connections) {
         drawer.strokeStyle = flowDots.Static.COLORS[this.label];
         drawer.beginPath();
-        // if (i == 0) {
-        //     drawer.moveTo(this.hex.MidPoint.X, this.hex.MidPoint.Y);
-        //     console.log("(" + this.label + ") begin: " + this.hex.MidPoint.X + ", " + this.hex.MidPoint.Y);
-        // } else {
-        //     drawer.moveTo(this.connections[i - 1].MidPoint.X, this.connections[i - 1].MidPoint.Y);
-        //     console.log("(" + this.label + ") begin: " + this.connections[i - 1].MidPoint.X + ", " + this.connections[i - 1].MidPoint.Y);
-        // }
+        if (i == 0) {
+            drawer.moveTo(this.hex.MidPoint.X, this.hex.MidPoint.Y);
+            // console.log("(" + this.label + ") begin: " + this.hex.MidPoint.X + ", " + this.hex.MidPoint.Y);
+        } else {
+            drawer.moveTo(this.connections[i - 1].MidPoint.X, this.connections[i - 1].MidPoint.Y);
+            // console.log("(" + this.label + ") begin: " + this.connections[i - 1].MidPoint.X + ", " + this.connections[i - 1].MidPoint.Y);
+        }
         drawer.lineTo(this.connections[i].MidPoint.X, this.connections[i].MidPoint.Y);
         // console.log("(" + this.label + ") end: " + this.connections[i].MidPoint.X + ", " + this.connections[i].MidPoint.Y);
         drawer.stroke();
