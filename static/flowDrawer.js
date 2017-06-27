@@ -32,12 +32,7 @@ flowDots.Dot = function (hex, label) {
     this.connections = [];
 };
 
-flowDots.Dot.prototype.draw = function (drawer) {
-    drawer.fillStyle = flowDots.Static.COLORS[this.label];
-    drawer.beginPath();
-    drawer.arc(this.hex.MidPoint.X, this.hex.MidPoint.Y, flowDots.Static.RADIUS, 0, 2 * Math.PI);
-    drawer.closePath();
-    drawer.fill();
+flowDots.Dot.prototype.drawLines = function (drawer) {
     drawer.lineWidth = flowDots.Static.LINE_WIDTH;
     for (var i in this.connections) {
         drawer.strokeStyle = flowDots.Static.COLORS[this.label];
@@ -58,6 +53,14 @@ flowDots.Dot.prototype.draw = function (drawer) {
         drawer.closePath();
         drawer.fill();
     }
+};
+
+flowDots.Dot.prototype.drawBlobs = function (drawer) {
+    drawer.fillStyle = flowDots.Static.COLORS[this.label];
+    drawer.beginPath();
+    drawer.arc(this.hex.MidPoint.X, this.hex.MidPoint.Y, flowDots.Static.RADIUS, 0, 2 * Math.PI);
+    drawer.closePath();
+    drawer.fill();
     if (flowDots.Static.DRAW_LABELS) {
         drawer.fillStyle = flowDots.Static.label_color;
         drawer.font = "bolder 14pt Trebuchet MS,Tahoma,Verdana,Arial,sans-serif";

@@ -22,7 +22,7 @@
 
     var dots = {};
 
-
+{#
     dots["A1"] = new flowDots.Dot(grid.GetHexById("A1"), "A");
     dots["A5"] = new flowDots.Dot(grid.GetHexById("A5"), "B");
 
@@ -35,6 +35,7 @@
     dots["A5"].connections.push(grid.GetHexById("D6"));
     dots["A5"].connections.push(grid.GetHexById("B6"));
     dots["A5"].connections.push(grid.GetHexById("A5"));
+#}
 
 
     function drawThings() {
@@ -44,7 +45,10 @@
             grid.Hexes[h].draw(drawer);
         }
         for (var i in dots) {
-            dots[i].draw(drawer);
+            dots[i].drawLines(drawer);
+        }
+        for (var i in dots) {
+            dots[i].drawBlobs(drawer);
         }
     }
     drawThings();
