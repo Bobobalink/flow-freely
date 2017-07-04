@@ -3,7 +3,7 @@ flowDots.Static = {};
 flowDots.Static.RADIUS = 32;
 flowDots.Static.LINE_WIDTH = 27;
 flowDots.Static.DRAW_LABELS = true;
-// lovingly hand-stolen from https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
+// lovingly hand-stolen (then edited) from https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 flowDots.Static.COLORS = {
     "A": "#e6194b",
     "B": "#3cb44b",
