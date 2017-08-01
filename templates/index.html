@@ -5,21 +5,25 @@
 <canvas id="hexes" width="600" height="600"></canvas>
 <br />
 <input type="button" id="toggleButton" onclick="switchMode(this)" value="Play">
-<script type="text/javascript" src="/static/HexagonTools.js"></script>
-<script type="text/javascript" src="/static/Grid.js"></script>
+{#<script type="text/javascript" src="/static/HexagonTools.js"></script>#}
+{#<script type="text/javascript" src="/static/Grid.js"></script>#}
 <script type="text/javascript" src="/static/flowDrawer.js"></script>
 <script type="text/javascript" src="/static/levelCreator.js"></script>
 <script type="text/javascript" src="/static/levelPlayer.js"></script>
 <script type="text/javascript" src="/static/httpstuff.js"></script>
+<script type="text/javascript" src="/static/HexagonGridBase.js"></script>
+<script type="text/javascript" src="/static/HexagonToolBase.js"></script>
 <script type="text/javascript">
     var canvas = document.getElementById("hexes");
     var drawer = canvas.getContext("2d");
     drawer.fillStyle = "#ffffff";
     drawer.fillRect(0, 0, canvas.width, canvas.height);
-    HT.Hexagon.Static.WIDTH = 100;
-    HT.Hexagon.Static.HEIGHT = 86.60254037844388;
-    HT.Hexagon.Static.SIDE = 50;
-    var grid = new HT.Grid(canvas.width, canvas.height);
+{#    HT.Hexagon.Static.WIDTH = 100 / 1;#}
+{#    HT.Hexagon.Static.HEIGHT = 86.60254037844388 / 1;#}
+{#    HT.Hexagon.Static.SIDE = 50 / 1;#}
+{#    HT.Hexagon.Static.ORIENTATION = HT.Hexagon.Orientation.Rotated;#}
+{#    var grid = new HT.Grid(canvas.width, canvas.height);#}
+    var grid = new FlowGridNormal(canvas.width, canvas.height, 8);
 
     var dots = {};
 
