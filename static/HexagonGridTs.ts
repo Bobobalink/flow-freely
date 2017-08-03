@@ -1,5 +1,4 @@
-import * as HT from "./HexagonToolBase";
-import {Hexagon} from "./HexagonToolBase";
+import * as HT from "./HexagonToolTs";
 
 export class BaseHexGrid {
     public static letters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -25,7 +24,7 @@ export class BaseHexGrid {
             let x = offset;
             while (x + prototype.width <= width) {
                 let hexId = this.getHexId(row, col);
-                let h = Hexagon.fromPrototype(prototype, hexId, new HT.Point(x, y));
+                let h = HT.Hexagon.fromPrototype(prototype, hexId, new HT.Point(x, y));
 
                 let pathCoord = col;
                 if (prototype.skew) {
@@ -82,7 +81,7 @@ export class BaseHexGrid {
         return prefix + BaseHexGrid.letters[row] + col;
     }
 
-    public getHexAt(p: HT.Point): HT.Hexagon {
+    public getHexAt(p: HT.Point): HT.Hexagon | null {
         for (let h of this.hexes) {
             if (h.contains(p)) {
                 return h;
@@ -91,13 +90,13 @@ export class BaseHexGrid {
         return null;
     }
 
-    public gridDistBetween(h1: Hexagon, h2: Hexagon): number {
+    public gridDistBetween(h1: HT.Hexagon, h2: HT.Hexagon): number {
         let dx = h1.pathCoordX - h2.pathCoordX;
         let dy = h1.pathCoordY - h2.pathCoordY;
         return ((Math.abs(dx) + Math.abs(dy) + Math.abs(dx - dy)) / 2);
     }
 
-    public getHexById(id: string): Hexagon {
+    public getHexById(id: string): HT.Hexagon | null {
         for (let h of this.hexes) {
             if (h.ID == id)
                 return h;

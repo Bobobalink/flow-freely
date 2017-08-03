@@ -54,10 +54,10 @@ export class Hexagon {
     public ID: string;
     public pathCoordX: number;
     public pathCoordY: number;
-    public x;
-    public y;
-    public x1;
-    public y1;
+    public x: number;
+    public y: number;
+    public x1: number;
+    public y1: number;
     public p1: Point;
     public topLeft: Point;
     public bottomRight: Point;
@@ -169,17 +169,17 @@ export class Hexagon {
 
     static equilRatio = 0.8660254037844388;
 
-    static makeRegularHexagon(size: number, location: Point, id, skew: boolean = false): Hexagon {
+    static makeRegularHexagon(size: number, location: Point, id: string, skew: boolean = false): Hexagon {
         return new Hexagon(id, location.x, location.y, skew, size / 2, size, size * 0.860254037844388);
     }
 
-    static fromPrototype(protoype: Hexagon, id, location: Point = null, skew: boolean = null, side: number = null, width: number = null, height: number = null) {
-        let xO = location == null ? protoype.x : location.x;
-        let yO = location == null ? protoype.y : location.y;
-        let skewO = skew == null ? protoype.skew : skew;
-        let sideO = side == null ? protoype.side : side;
-        let widthO = width == null ? protoype.width : width;
-        let heightO = height == null ? protoype.height : height;
+    static fromPrototype(prototype: Hexagon, id: string, location: Point = null, skew: boolean = null, side: number = null, width: number = null, height: number = null) {
+        let xO = location == null ? prototype.x : location.x;
+        let yO = location == null ? prototype.y : location.y;
+        let skewO = skew == null ? prototype.skew : skew;
+        let sideO = side == null ? prototype.side : side;
+        let widthO = width == null ? prototype.width : width;
+        let heightO = height == null ? prototype.height : height;
         return new Hexagon(id, xO, yO, skewO, sideO, widthO, heightO);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "module": "amd",
+    "target": "es5",
+    "removeComments": true,
+    "allowJs": false
+  },
+  "include": ["./"],
+  "exclude": []
+}
