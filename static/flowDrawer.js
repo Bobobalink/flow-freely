@@ -69,4 +69,3 @@ flowDots.Dot.prototype.drawBlobs = function (drawer) {
         drawer.fillText(this.label, this.hex.MidPoint.X, this.hex.MidPoint.Y);
     }
 };
-
