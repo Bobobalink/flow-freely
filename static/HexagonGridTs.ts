@@ -1,10 +1,10 @@
 import * as HT from "./HexagonToolTs";
 
 export class BaseHexGrid {
-    public static letters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    public static letters: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-    public hexes: HT.Hexagon[];
-    public hexByIndex: { [index: number]: HT.Hexagon[] };
+    public hexes: HT.Hexagon[] = [];
+    public hexByIndex: { [index: number]: HT.Hexagon[] } = {};
 
     public constructor(width: number, height: number, prototype: HT.Hexagon) {
         let row: number = 0;
@@ -110,23 +110,27 @@ export class FlowGridNormal extends BaseHexGrid {
         let hexHeight: number = 0;
         let hexWidth: number = 0;
         let hexSide: number = 0;
-        let heightIsLimit: boolean = pixelWidth * HT.Hexagon.equilRatio > pixelHeight;
+
+        let heightIsLimit: boolean = pixelWidth * HT.Hexagon.equilRatio > pixelHeight * 3/4;
         if (heightIsLimit) {
-            hexHeight = pixelHeight / size;
+            console.log("heightislimit");
+            hexHeight = pixelHeight / (size + 1);
             hexWidth = hexHeight / HT.Hexagon.equilRatio;
             hexSide = hexWidth / 2;
         } else {
-            hexWidth = pixelWidth / size;
+            console.log("widthislimit");
+            hexWidth = pixelWidth / ((size + 1) * 3/4);  // hexes overlap laterally by 1/4 of their width
             hexHeight = hexWidth * HT.Hexagon.equilRatio;
             hexSide = hexWidth / 2;
         }
 
         let protoHex = new HT.Hexagon("", 0, 0, false, hexSide, hexWidth, hexHeight);
 
-        super(hexWidth * size + 1, hexHeight * size + 1, protoHex);  // use sizes computed this way to avoid having extra hexes
+        super(hexWidth * (size + 1) * 3/4 + 1, hexHeight * (size + 1) + 1, protoHex);  // use sizes computed this way to avoid having extra hexes
 
+        let lastIndex = this.hexes[this.hexes.length - 1].ID.split(/\d+/i)[0];
         for(let h in this.hexes) {
-            if(this.hexes[h].ID.match(/A\d/i)) {
+            if(this.hexes[h].ID.match(/A\d+/i) || this.hexes[h].ID.match(lastIndex + '\\d+')) {  // prune the ones that stick out... TODO: this is probably stupid
                 delete this.hexes[h];
             }
         }

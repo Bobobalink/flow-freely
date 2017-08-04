@@ -170,10 +170,10 @@ export class Hexagon {
     static equilRatio = 0.8660254037844388;
 
     static makeRegularHexagon(size: number, location: Point, id: string, skew: boolean = false): Hexagon {
-        return new Hexagon(id, location.x, location.y, skew, size / 2, size, size * 0.860254037844388);
+        return new Hexagon(id, location.x, location.y, skew, size / 2, size, size * Hexagon.equilRatio);
     }
 
-    static fromPrototype(prototype: Hexagon, id: string, location: Point = null, skew: boolean = null, side: number = null, width: number = null, height: number = null) {
+    static fromPrototype(prototype: Hexagon, id: string, location: Point | null = null, skew: boolean | null = null, side: number | null = null, width: number | null = null, height: number | null = null) {
         let xO = location == null ? prototype.x : location.x;
         let yO = location == null ? prototype.y : location.y;
         let skewO = skew == null ? prototype.skew : skew;

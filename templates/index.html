@@ -1,81 +1,12 @@
 <head>
 
 </head>
-<body onpageshow="drawThings()" onfocus="drawThings()">
+<body>
 <canvas id="hexes" width="600" height="600"></canvas>
 <br />
-<input type="button" id="toggleButton" onclick="switchMode(this)" value="Play">
-{#<script type="text/javascript" src="/static/HexagonTools.js"></script>#}
-{#<script type="text/javascript" src="/static/Grid.js"></script>#}
-{#<script type="text/javascript" src="/static/flowDrawer.js"></script>#}
-{#<script type="text/javascript" src="/static/levelCreator.js"></script>#}
-{#<script type="text/javascript" src="/static/levelPlayer.js"></script>#}
-{#<script type="text/javascript" src="/static/httpstuff.js"></script>#}
-{#<script type="text/javascript" src="/static/HexagonGridTs.js"></script>#}
-{#<script type="text/javascript" src="/static/HexagonToolTs.js"></script>#}
-<script type="text/javascript">
-    var canvas = document.getElementById("hexes");
-    var drawer = canvas.getContext("2d");
-    drawer.fillStyle = "#ffffff";
-    drawer.fillRect(0, 0, canvas.width, canvas.height);
-{#    HT.Hexagon.Static.WIDTH = 100 / 1;#}
-{#    HT.Hexagon.Static.HEIGHT = 86.60254037844388 / 1;#}
-{#    HT.Hexagon.Static.SIDE = 50 / 1;#}
-{#    HT.Hexagon.Static.ORIENTATION = HT.Hexagon.Orientation.Rotated;#}
-{#    var grid = new HT.Grid(canvas.width, canvas.height);#}
-    var grid = new FlowGridNormal(canvas.width, canvas.height, 8);
-
-    var dots = {};
-
-{#
-    dots["A1"] = new flowDots.Dot(grid.GetHexById("A1"), "A");
-    dots["A5"] = new flowDots.Dot(grid.GetHexById("A5"), "B");
-
-    dots["A1"].connections.push(grid.GetHexById("B2"));
-    dots["A1"].connections.push(grid.GetHexById("D2"));
-    dots["A5"].connections.push(grid.GetHexById("B4"));
-    dots["A5"].connections.push(grid.GetHexById("C5"));
-    dots["A5"].connections.push(grid.GetHexById("D4"));
-    dots["A5"].connections.push(grid.GetHexById("E5"));
-    dots["A5"].connections.push(grid.GetHexById("D6"));
-    dots["A5"].connections.push(grid.GetHexById("B6"));
-    dots["A5"].connections.push(grid.GetHexById("A5"));
-#}
+<input type="button" id="toggleButton" value="Play">
 
 
-    function drawThings() {
-        drawer.clearRect(0, 0, canvas.width, canvas.height);
-        for (var h in grid.Hexes) {
-{#            console.log(h + " " + grid.Hexes[h].x + " " + grid.Hexes[h].y);#}
-            grid.Hexes[h].draw(drawer);
-        }
-        for (var i in dots) {
-            dots[i].drawLines(drawer);
-        }
-        for (var i in dots) {
-            dots[i].drawBlobs(drawer);
-        }
-    }
-    drawThings();
+<script type="text/javascript" data-main="/static/main" src="/static/require.js"></script>
 
-    function switchMode(button) {
-        if(button.value == "Play") {
-            button.value = "Edit";
-
-            canvas.removeEventListener("click", LC.onClick);
-
-            canvas.addEventListener("click", LP.onClick);
-            canvas.addEventListener("mousemove", LP.onMouseMove);
-        } else {
-            button.value = "Play";
-
-            canvas.addEventListener("click", LC.onClick);
-
-            canvas.removeEventListener("click", LP.onClick);
-            canvas.removeEventListener("mousemove", LP.onMouseMove);
-        }
-    }
-
-    canvas.addEventListener("click", LC.onClick);
-</script>
 </body>
