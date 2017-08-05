@@ -1,4 +1,4 @@
-import * as HT from "./HexagonToolTs";
+import * as HT from "./HexagonTool";
 
 export class BaseHexGrid {
     public static letters: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');

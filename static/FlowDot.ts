@@ -1,5 +1,5 @@
-import * as HT from "HexagonToolTs"
-import * as HG from "HexagonGridTs"
+import * as HT from "HexagonTool"
+import * as HG from "HexagonGrid"
 
 export class FlowDot {
     public static LINE_WIDTH: number = 27;

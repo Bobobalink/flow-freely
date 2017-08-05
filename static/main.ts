@@ -1,7 +1,7 @@
-import * as HG from "./HexagonGridTs";
+import * as HG from "./HexagonGrid";
 import {FlowDot} from "./FlowDot";
-import {LevelCreator} from "./levelCreatorTs";
-import {LevelPlayer} from "./levelPlayerTs";
+import {LevelCreator} from "./levelCreator";
+import {LevelPlayer} from "./levelPlayer";
 
 function main() {
     let canvas = <HTMLCanvasElement>document.getElementById("hexes");
@@ -39,7 +39,7 @@ function main() {
         if (button.value == "Play") {
             button.value = "Edit";
 
-            LC.stop(canvas);
+            LC.stop();
             LP.start(canvas, drawThings);
         } else {
             button.value = "Play";

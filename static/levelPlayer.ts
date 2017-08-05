@@ -1,6 +1,6 @@
-import {BaseHexGrid} from "./HexagonGridTs";
+import {BaseHexGrid} from "./HexagonGrid";
 import {FlowDot} from "./FlowDot";
-import {Hexagon, Point} from "./HexagonToolTs";
+import {Hexagon, Point} from "./HexagonTool";
 
 export class LevelPlayer {
     private grid: BaseHexGrid;

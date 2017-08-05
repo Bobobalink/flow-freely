@@ -24,6 +24,6 @@ export class HTTPLib {
                 callback(httpRequest.responseText);
         };
         httpRequest.open("POST", url, true);
-        httpRequest.send(data);
+        httpRequest.send(JSON.stringify(data));
     }
 }

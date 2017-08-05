@@ -3,6 +3,8 @@
     "outDir": "./",
     "sourceMap": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
     "strictNullChecks": true,
     "module": "amd",
     "target": "es5",

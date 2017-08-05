@@ -1,5 +1,5 @@
-import * as HT from "HexagonToolTs";
-import * as HG from "HexagonGridTs";
+import * as HT from "HexagonTool";
+import * as HG from "HexagonGrid";
 import {FlowDot} from "./FlowDot";
 
 export class LevelCreator {
@@ -27,10 +27,11 @@ export class LevelCreator {
         canvas.addEventListener("click", this.onClick.bind(this), false);
     }
 
-    public stop(canvas: HTMLCanvasElement) {
+    public stop() {
+        if(!this.canvas) return;
+        this.canvas.removeEventListener("click", this.onClick.bind(this), false);
         this.canvas = null;
         this.draw = null;
-        canvas.removeEventListener("click", this.onClick.bind(this), false);
     }
 
     private onClick(event: HTMLElementEventMap["click"]) {
@@ -41,7 +42,7 @@ export class LevelCreator {
         let mousePoint = new HT.Point(event.pageX, event.pageY);
         let hex = this.grid.getHexAt(mousePoint);
         if (!hex) return;
-        console.log(hex.ID);
+        console.log(this.labelStack);
         if (!this.dots[hex.ID]) {  // if the hex is currently empty
             let nextLabel = this.labelStack.pop();
             if (nextLabel == undefined) return;
