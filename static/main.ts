@@ -1,6 +1,7 @@
 import * as HG from "./HexagonGridTs";
 import {FlowDot} from "./FlowDot";
 import {LevelCreator} from "./levelCreatorTs";
+import {LevelPlayer} from "./levelPlayerTs";
 
 function main() {
     let canvas = <HTMLCanvasElement>document.getElementById("hexes");
@@ -15,19 +16,8 @@ function main() {
 
     let dots: {[index: string]: FlowDot} = {};
 
-//     dots["A1"] = new flowDots.Dot(grid.GetHexById("A1"), "A");
-//     dots["A5"] = new flowDots.Dot(grid.GetHexById("A5"), "B");
-//
-//     dots["A1"].connections.push(grid.GetHexById("B2"));
-//     dots["A1"].connections.push(grid.GetHexById("D2"));
-//     dots["A5"].connections.push(grid.GetHexById("B4"));
-//     dots["A5"].connections.push(grid.GetHexById("C5"));
-//     dots["A5"].connections.push(grid.GetHexById("D4"));
-//     dots["A5"].connections.push(grid.GetHexById("E5"));
-//     dots["A5"].connections.push(grid.GetHexById("D6"));
-//     dots["A5"].connections.push(grid.GetHexById("B6"));
-//     dots["A5"].connections.push(grid.GetHexById("A5"));
-
+    let LC = new LevelCreator(grid, dots, FlowDot.COLORS);
+    let LP = new LevelPlayer(grid, dots);
 
     function drawThings(drawer: CanvasRenderingContext2D) {
         drawer.clearRect(0, 0, canvas.width, canvas.height);
@@ -48,25 +38,21 @@ function main() {
         let button = <HTMLButtonElement>event.target;
         if (button.value == "Play") {
             button.value = "Edit";
-            //
-            // canvas.removeEventListener("click", LC.onClick);
-            //
-            // canvas.addEventListener("click", LP.onClick);
-            // canvas.addEventListener("mousemove", LP.onMouseMove);
+
+            LC.stop(canvas);
+            LP.start(canvas, drawThings);
         } else {
             button.value = "Play";
-            //
-            // canvas.addEventListener("click", LC.onClick);
-            //
-            // canvas.removeEventListener("click", LP.onClick);
-            // canvas.removeEventListener("mousemove", LP.onMouseMove);
+
+            LP.stop(canvas);
+            LC.start(canvas, drawThings);
+
         }
     }
 
     let button = <HTMLButtonElement>document.getElementById("toggleButton");
     button.addEventListener("click", switchMode, false);
 
-    let LC = new LevelCreator(grid, dots, FlowDot.COLORS);
 
     LC.start(canvas, drawThings);
 

@@ -19,6 +19,7 @@ export class BaseHexGrid {
                 } else {
                     offset = (prototype.width - prototype.side) / 2 + prototype.side;
                 }
+                col = 1;
             }
 
             let x = offset;
@@ -36,12 +37,9 @@ export class BaseHexGrid {
 
                 this.hexes.push(h);
 
-                try {
-                    this.hexByIndex[pathCoord].push(h);
-                } catch (e) {
+                if(!this.hexByIndex[pathCoord])
                     this.hexByIndex[pathCoord] = [];
-                    this.hexByIndex[pathCoord].push(h);
-                }
+                this.hexByIndex[pathCoord].push(h);
 
                 col += 2;
                 if (prototype.skew) {
@@ -60,7 +58,7 @@ export class BaseHexGrid {
 
         for (let coord1 in this.hexByIndex) {
             let hexesAtInd = this.hexByIndex[coord1];
-            let coord2 = Math.floor(parseInt(coord1) / 2) + (parseInt(coord1) % 2);
+            let coord2 = Math.floor(parseFloat(coord1) / 2) + (parseFloat(coord1) % 2);
             for (let h of hexesAtInd) {
                 if (prototype.skew) {
                     h.pathCoordX = coord2++;
@@ -111,7 +109,7 @@ export class FlowGridNormal extends BaseHexGrid {
         let hexWidth: number = 0;
         let hexSide: number = 0;
 
-        let heightIsLimit: boolean = pixelWidth * HT.Hexagon.equilRatio > pixelHeight * 3/4;
+        let heightIsLimit: boolean = pixelWidth * HT.Hexagon.equilRatio > pixelHeight * 3 / 4;
         if (heightIsLimit) {
             console.log("heightislimit");
             hexHeight = pixelHeight / (size + 1);
@@ -119,26 +117,26 @@ export class FlowGridNormal extends BaseHexGrid {
             hexSide = hexWidth / 2;
         } else {
             console.log("widthislimit");
-            hexWidth = pixelWidth / ((size + 1) * 3/4);  // hexes overlap laterally by 1/4 of their width
+            hexWidth = pixelWidth / ((size + 1) * 3 / 4);  // hexes overlap laterally by 1/4 of their width
             hexHeight = hexWidth * HT.Hexagon.equilRatio;
             hexSide = hexWidth / 2;
         }
 
         let protoHex = new HT.Hexagon("", 0, 0, false, hexSide, hexWidth, hexHeight);
 
-        super(hexWidth * (size + 1) * 3/4 + 1, hexHeight * (size + 1) + 1, protoHex);  // use sizes computed this way to avoid having extra hexes
+        super(hexWidth * (size + 1) * 3 / 4 + 1, hexHeight * (size + 1) + 1, protoHex);  // use sizes computed this way to avoid having extra hexes
 
         let lastIndex = this.hexes[this.hexes.length - 1].ID.split(/\d+/i)[0];
-        for(let h in this.hexes) {
-            if(this.hexes[h].ID.match(/A\d+/i) || this.hexes[h].ID.match(lastIndex + '\\d+')) {  // prune the ones that stick out... TODO: this is probably stupid
+        for (let h in this.hexes) {
+            if (this.hexes[h].ID.match(/A\d+/i) || this.hexes[h].ID.match(lastIndex + '\\d+')) {  // prune the ones that stick out... TODO: this is probably stupid
                 delete this.hexes[h];
             }
         }
 
         // because I've 1000% given up on performance, O(n) fixing of the fact that I can't figure out how to make typescript use a set
         let newList: HT.Hexagon[] = [];
-        for(let item of this.hexes) {
-            if(item)
+        for (let item of this.hexes) {
+            if (item)
                 newList.push(item);
         }
         this.hexes = newList;
