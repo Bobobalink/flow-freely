@@ -1,4 +1,5 @@
 import * as HT from "./HexagonTool";
+import {FlowDot} from "./FlowDot";
 
 export class BaseHexGrid {
     public static letters: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -140,5 +141,8 @@ export class FlowGridNormal extends BaseHexGrid {
                 newList.push(item);
         }
         this.hexes = newList;
+
+        FlowDot.RADIUS = hexHeight * 0.4;
+        FlowDot.LINE_WIDTH = hexSide * 0.75;
     }
 }

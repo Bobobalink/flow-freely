@@ -1,57 +1,48 @@
 import * as HT from "HexagonTool";
-import * as HG from "HexagonGrid";
 import {FlowDot} from "./FlowDot";
+import {Data} from "./Data";
 
 export class LevelCreator {
-    private grid: HG.BaseHexGrid;
-    private dots: { [index: string]: FlowDot };
+    private data: Data;
 
     private labelStack: string[] = [];
 
-    private canvas: HTMLCanvasElement | null = null;
-    private draw: ((drawer: CanvasRenderingContext2D) => void) | null = null;
-
-    public constructor(grid: HG.BaseHexGrid, dots: { [index: string]: FlowDot }, colors: { [index: string]: string }) {
-        this.grid = grid;
-        this.dots = dots;
-        for (let label in colors) {
+    public constructor(data: Data) {
+        this.data = data;
+        for (let label in FlowDot.COLORS) {
             this.labelStack.push(label);
             this.labelStack.push(label);
         }
         this.labelStack.sort().reverse();
     }
 
-    public start(canvas: HTMLCanvasElement, draw: (drawer: CanvasRenderingContext2D) => void) {
-        this.canvas = canvas;
-        this.draw = draw;
-        canvas.addEventListener("click", this.onClick.bind(this), false);
+    public start() {
+        console.log("starting LC listener");
+        this.data.canvas.addEventListener("click", this.onClickBound, false);
     }
 
     public stop() {
-        if(!this.canvas) return;
-        this.canvas.removeEventListener("click", this.onClick.bind(this), false);
-        this.canvas = null;
-        this.draw = null;
+        console.log("stopping LC listener");
+        this.data.canvas.removeEventListener("click", this.onClickBound, false);
     }
 
-    private onClick(event: HTMLElementEventMap["click"]) {
-        if (!this.canvas) return;
-        let drawer = this.canvas.getContext("2d");
-        if (!drawer || !this.draw) return;
+    private onClickBound = this.onClick.bind(this);
 
+    private onClick(event: HTMLElementEventMap["click"]) {
+        console.log("levelCreator Click");
         let mousePoint = new HT.Point(event.pageX, event.pageY);
-        let hex = this.grid.getHexAt(mousePoint);
+        let hex = this.data.grid.getHexAt(mousePoint);
         if (!hex) return;
-        console.log(this.labelStack);
-        if (!this.dots[hex.ID]) {  // if the hex is currently empty
+        // console.log(this.labelStack);
+        if (!this.data.dots[hex.ID]) {  // if the hex is currently empty
             let nextLabel = this.labelStack.pop();
             if (nextLabel == undefined) return;
-            this.dots[hex.ID] = new FlowDot(hex, nextLabel);
+            this.data.dots[hex.ID] = new FlowDot(hex, nextLabel);
         } else {
-            this.labelStack.push(this.dots[hex.ID].label);
-            delete this.dots[hex.ID];
+            this.labelStack.push(this.data.dots[hex.ID].label);
+            delete this.data.dots[hex.ID];
         }
 
-        this.draw(drawer);
+        this.data.updateCanvas();
     }
 }
