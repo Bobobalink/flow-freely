@@ -28,5 +28,10 @@ def updateGame():
         return "valid json"
 
 
+@app.route('/dumb')
+def dumb():
+    return render_template('dumbTest.html')
+
+
 if __name__ == '__main__':
     app.run()

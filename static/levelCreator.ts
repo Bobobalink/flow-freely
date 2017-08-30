@@ -5,10 +5,12 @@ import {Data} from "./Data";
 export class LevelCreator {
     private data: Data;
 
-    private labelStack: string[] = [];
+    private labelStack: string[];
 
     public constructor(data: Data) {
+        console.log("constructing LevelCreator");
         this.data = data;
+        this.labelStack = [];
         for (let label in FlowDot.COLORS) {
             this.labelStack.push(label);
             this.labelStack.push(label);

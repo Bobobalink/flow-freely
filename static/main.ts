@@ -6,6 +6,7 @@ function main() {
     data = new Data();
     data.updateCanvas();
 
+    data.UI.start();
 }
 
 main();
