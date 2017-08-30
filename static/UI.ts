@@ -6,6 +6,7 @@ export class UI {
     sizeChanged: boolean;
     private modeSwitchButton: HTMLButtonElement;
     private sizeSlider: HTMLInputElement;
+    private sizeDisplay: HTMLDivElement;
 
     private lastBoardSize = 0;
 
@@ -18,6 +19,9 @@ export class UI {
         tmp = document.getElementById("boardSize");
         if (!tmp) throw new Error();
         this.sizeSlider = <HTMLInputElement>tmp;
+        tmp = document.getElementById("boardSizeDisplay");
+        if(!tmp) throw new Error();
+        this.sizeDisplay = <HTMLDivElement>tmp;
         this.lastBoardSize = parseInt(this.sizeSlider.value);
         this.data = data;
 
@@ -72,6 +76,9 @@ export class UI {
         if (this.lastBoardSize == newVal) return;
         this.lastBoardSize = newVal;
         this.sizeChanged = true;
+
+        this.sizeDisplay.innerHTML = newVal.toString();
+
         this.data.dots = {};
         this.data.grid = new FlowGridNormal(this.data.canvas.width * 0.95, this.data.canvas.height * 0.95, newVal);
 

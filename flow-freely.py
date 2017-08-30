@@ -14,15 +14,14 @@ def updateGame():
         # return the board state we have saved
         pass
     else:
-        json_return = dict()
         try:
             json_return = request.get_json(force=True)
         except ValueError:
             return "invalid JSON"
         for key in json_return:
             print(key, json_return[key]["label"], json_return[key]["hex"]["Id"])
-            for hex in json_return[key]["connections"]:
-                print(hex["Id"], end=' ')
+            for h in json_return[key]["connections"]:
+                print(h["Id"], end=' ')
             print()
             print()
         return "valid json"
