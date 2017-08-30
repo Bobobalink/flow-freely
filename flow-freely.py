@@ -27,6 +27,5 @@ def updateGame():
             print()
         return "valid json"
 
-
 if __name__ == '__main__':
     app.run()
